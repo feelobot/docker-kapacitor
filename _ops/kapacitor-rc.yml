@@ -1,0 +1,28 @@
+---
+kind: "ReplicationController"
+apiVersion: "v1"
+metadata:
+  name: "kapacitor"
+  creationTimestamp: null
+  labels:
+    service: "kapacitor"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kapacitor
+      name: kapacitor
+    spec:
+      containers:
+      - image: feelobot/docker-kapacitor
+        imagePullPolicy: Always
+        name: kapacitor
+        ports:
+          - containerPort: 9092
+            name: kapacitor
+        env:
+          - name: INFLUXDB_URL
+            value: http://influxdb.default.svc.cluster.local:8086
+          - name: KAPACITOR_URL
+            value: http://kapacitor.default.svc.cluster.local:9092

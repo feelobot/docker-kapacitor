@@ -1,0 +1,10 @@
+batch
+  .query('''
+      SELECT derivative("value", 7s) 
+      FROM "k8s"."default"."cpu"
+  ''')
+    .period(5m)
+    .every(5m)
+  .alert()
+    .slack()
+      .crit(lambda: "value" <= 1)
